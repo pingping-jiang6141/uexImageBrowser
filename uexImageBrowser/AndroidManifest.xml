@@ -1,0 +1,39 @@
+<manifest>
+	<!-- uexImageBrowser -->
+	<activity
+		android:name="org.zywx.wbpalmstar.plugin.ueximagebrowser.ImageWatcherActivity"
+		android:configChanges="orientation|keyboardHidden"
+            android:hardwareAccelerated="false"
+		android:screenOrientation="sensor"
+		android:theme="@style/Style_platform_no_title_and_background" />
+	 <activity
+		android:name="org.zywx.wbpalmstar.plugin.ueximagebrowser.ImagePreviewActivity"
+		android:configChanges="orientation|keyboardHidden"
+            android:hardwareAccelerated="false"
+		android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+	 <activity
+		android:name="org.zywx.wbpalmstar.plugin.ueximagebrowser.PickMultiActivity"
+		android:configChanges="orientation|keyboardHidden"
+            android:hardwareAccelerated="false"
+		android:theme="@android:style/Theme.NoTitleBar" />
+	 <activity
+		android:name="org.zywx.wbpalmstar.plugin.ueximagebrowser.ImageReviewActivity"
+		android:configChanges="orientation|keyboardHidden"
+            android:hardwareAccelerated="false"
+		android:theme="@style/Style_platform_activity_transparent" />
+	 <activity
+		android:name="org.zywx.wbpalmstar.plugin.ueximagebrowser.PictureActivity"
+		android:configChanges="orientation|keyboardHidden"
+            android:hardwareAccelerated="false"
+		android:theme="@style/Style_platform_full_screen_no_title_background" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+     <!-- uexImageBrowser -->
+   <uses-permission android:name="android.permission.INTERNET" />
+     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+   </manifest>

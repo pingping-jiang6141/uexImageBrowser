@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<uexplugins>
+    <plugin
+        uexName="uexImageBrowser" version="3.0.16" build="16">
+        <info>16:修复小米4.4.4系统不能显示图片的问题</info>
+        <build>15:修复打包uexImageBrowser插件后点击输入框键盘无法平移问题</build>
+        <build>14:修复图片浏览器图片显示比较慢的问题</build>
+        <build>13:修复图片浏览器同一url图片只加载一次的问题。</build>
+        <build>12:修复图片浏览器一直加载的问题。</build>
+        <build>11:修改多选图片回调参数。</build>
+        <build>10:修复网络图片默认显示缩略图的问题。</build>
+        <build>9:删除多选图片完成时的Toast提示消息。</build>
+        <build>8:修复单张网络图片浏览大图有时会崩溃的问题。</build>
+        <build>7:修改uexImageBrowser插件，修改多选图片完成时的提示字符串。</build>
+        <build>6:修改uexImageBrowser插件，增加多选图片接口pickMulti。</build>
+        <build>5:修改三星4.1.2系统版本选择图片无法返回路径的问题。</build>
+        <build>4:修改提示图片加载失败的问题。</build>
+        <build>3:添加log用于查错,并修复多图全屏浏览图片时传入url路径处理的崩溃bug</build>
+        <build>2:修改open方法，只处理3个参数，但是超出3个的情况，舍弃掉后面的，而不是不处理。</build>
+        <build>1:适配4.1（之前4.1下无法返回图片 ）</build>
+        <build>0:图片浏览器功能插件</build>
+    </plugin>
+</uexplugins>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 2014/9/9 created by dongjifei -->
+<!-- image item layout -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:descendantFocusability="blocksDescendants"
+    android:id="@+id/framelayout"
+    android:background="@drawable/plugin_imagebrowser_friends_sends_pictures_no"
+    android:padding="1dp"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/plugin_image_watcher_grid_item_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+         />
+    <ImageView
+            android:id="@+id/plugin_imagebrowser_child_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:scaleType="fitCenter"/>
+</FrameLayout>

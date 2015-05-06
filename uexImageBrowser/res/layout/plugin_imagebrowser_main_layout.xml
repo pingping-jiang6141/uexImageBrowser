@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF" >
+
+    <!-- 顶部Title栏 -->
+
+    <RelativeLayout
+        android:id="@+id/plugin_image_watcher_main_top"
+        android:layout_width="fill_parent"
+        android:layout_height="44dip"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/plugin_imagebrowser_top_bg_shape" >
+
+        <!-- 返回按钮 -->
+
+        <Button
+            android:id="@+id/plugin_image_watcher_grid_top_back"
+            android:layout_width="60dip"
+            android:layout_height="32dip"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dip"
+            android:background="@drawable/plugin_imagebrowser_back_selector"
+            android:gravity="center"
+            android:text="@string/back"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/plugin_image_watcher_grid_top_title"
+            android:layout_width="100dip"
+            android:layout_height="30dip"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:shadowColor="#ff000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="1"
+            android:singleLine="true"
+            android:text="@string/plugin_image_browser_photo"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="normal" />
+
+        <!-- 进度条 -->
+
+        <ProgressBar
+            android:id="@+id/plugin_image_watcher_main_top_loading"
+            android:layout_width="50dip"
+            android:layout_height="30dip"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12dip"
+            android:indeterminate="false"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <!-- 九宫格缩略图界面 -->
+
+    <GridView
+        android:id="@+id/plugin_image_watcher_grid_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/plugin_image_watcher_main_top"
+        android:background="#FFFFFF"
+        android:cacheColorHint="#00000000"
+        android:columnWidth="100dip"
+        android:fadingEdge="none"
+        android:horizontalSpacing="4dip"
+        android:listSelector="#FFFFFFFF"
+        android:numColumns="auto_fit"
+        android:paddingLeft="6dip"
+        android:paddingRight="6dip"
+        android:scrollbarStyle="outsideOverlay"
+        android:stretchMode="spacingWidth"
+        android:verticalSpacing="4dip" />
+
+</RelativeLayout>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<resources>
+
+    <string name="plugin_image_browser_undefine_image_url">未指定图片链接！</string>
+    <string name="plugin_image_browser_url_arguments_error">链接参数错误！</string>
+    <string name="plugin_image_browser_now_loading_image">正在加载图片</string>
+    <string name="plugin_image_browser_load_image_fail">加载图片失败！</string>
+    <string name="plugin_image_browser_system_have_not_return_image_path">系统未返回图片路径！</string>
+    <string name="plugin_image_browser_are_you_sure_to_exit_image_broswer">确定退出图片浏览器吗？</string>
+    <string name="plugin_image_browser_download_is_canceled">图片下载已取消</string>
+    <string name="plugin_image_borwser_now_saving_image_please_wait">正在保存图片，请稍候</string>
+    <string name="plugin_image_browser_sd_have_not_mount_so_can_not_save">SD卡未加载，无法保存</string>
+    <string name="plugin_image_browser_save_fail">保存失败！</string>
+    <string name="plugin_image_browser_save_folder">保存目录</string>
+    <string name="plugin_image_browser_image_have_not_load_can_not_save">图片尚未加载，无法保存！</string>
+    <string name="plugin_image_browser_photo">图片</string>
+
+</resources>

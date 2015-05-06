@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/black" >
+
+    <org.zywx.wbpalmstar.plugin.ueximagebrowser.ViewPager
+        android:id="@+id/plugin_image_watcher_pager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true" />
+
+    <RelativeLayout
+        android:id="@+id/plugin_image_watcher_controller_layer"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:visibility="gone" >
+
+        <!-- 顶部标题栏 -->
+
+        <RelativeLayout
+            android:id="@+id/plugin_image_watcher_controller_top"
+            android:layout_width="fill_parent"
+            android:layout_height="44dip"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/plugin_imagebrowser_top_bg_shape" >
+
+            <Button
+                android:id="@+id/plugin_image_watcher_controller_top_back"
+                android:layout_width="60dip"
+                android:layout_height="32dip"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dip"
+                android:background="@drawable/plugin_imagebrowser_back_selector"
+                android:gravity="center"
+                android:text="@string/back"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/plugin_image_watcher_controller_top_title"
+                android:layout_width="100dip"
+                android:layout_height="30dip"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:shadowColor="#ff000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="1"
+                android:singleLine="true"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="normal" />
+
+            <Button
+                android:id="@+id/plugin_image_watcher_controller_top_save"
+                android:layout_width="50dip"
+                android:layout_height="30dip"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="12dip"
+                android:background="@drawable/plugin_imagebrowser_button_selector"
+                android:gravity="center"
+                android:text="@string/save"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/plugin_image_watcher_controller_bottom"
+            android:layout_width="fill_parent"
+            android:layout_height="50dip"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/plugin_imagebrowser_bottom_bg_shape"
+            android:gravity="center" >
+
+            <ImageView
+                android:layout_width="26dip"
+                android:layout_height="50dip"
+                android:layout_gravity="center"
+                android:background="@drawable/plugin_imagebrowser_arrow_left" />
+
+            <ImageView
+                android:id="@+id/plugin_image_watcher_btn_zoom_out"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dip"
+                android:layout_marginRight="20dip"
+                android:background="@drawable/plugin_imagebrowser_zoom_out_selector" />
+
+            <ImageView
+                android:id="@+id/plugin_image_watcher_btn_zoom_in"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dip"
+                android:layout_marginRight="20dip"
+                android:background="@drawable/plugin_imagebrowser_zoom_in_selector" />
+
+            <ImageView
+                android:layout_width="26dip"
+                android:layout_height="50dip"
+                android:layout_gravity="center"
+                android:background="@drawable/plugin_imagebrowser_arrow_right" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/plugin_image_watcher_progressbar"
+        android:layout_width="36dip"
+        android:layout_height="36dip"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+</RelativeLayout>

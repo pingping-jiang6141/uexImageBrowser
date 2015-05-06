@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/black" >
+
+    <org.zywx.wbpalmstar.plugin.ueximagebrowser.MultiTouchImageView
+        android:id="@+id/plugin_image_review_photo"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="fitCenter" />
+
+    <RelativeLayout
+        android:id="@+id/plugin_image_review_bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/plugin_imagebrowser_bottom_bg_shape" >
+
+        <Button
+            android:id="@+id/plugin_image_review_btn_repick"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dip"
+            android:background="@drawable/plugin_imagebrowser_preview_repick_selector" />
+
+        <Button
+            android:id="@+id/plugin_image_review_btn_confirm"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dip"
+            android:background="@drawable/plugin_imagebrowser_use_selector" />
+    </RelativeLayout>
+
+</RelativeLayout>

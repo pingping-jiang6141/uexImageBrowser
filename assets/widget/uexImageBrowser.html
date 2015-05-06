@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport"
+    content="target-densitydpi=device-dpi, width=device-width, initial-scale=1.0, user-scalable=no" />
+<link rel="stylesheet" type="text/css" href="css/index.css">
+<title>图片浏览功能</title>
+<script type="text/javascript">
+    var paths;
+    window.uexOnload = function() {
+
+        uexImageBrowser.cbPick = function(opCode, dataType, data) {
+            document.getElementById('pickImage').innerHTML = data;
+            paths = data;
+        }
+
+        uexImageBrowser.cbSave = function(opCode, dataType, data) {
+            if (data == 0) {
+                alert("保存成功!");
+            } else if (data == 1) {
+                alert("保存失败!");
+            }
+        }
+
+        uexWidgetOne.onError = function(opCode, errorCode, errorDesc) {
+            alert(errorCode + ":" + errorDesc);
+        }
+    }
+
+    function openImageGallery() {
+        uexImageBrowser.open(paths);
+    }
+
+    function openImageGalleryWithIndex() {
+        uexImageBrowser.open(paths, 1);
+    }
+
+    function saveImg() {
+        var pic = document.getElementById('saveImgSrc').value;
+        uexImageBrowser.save(pic);
+    }
+    
+    function cleanCache(){
+        alert("cleanCache");
+        uexImageBrowser.cleanCache();
+    }
+
+</script>
+</head>
+
+<body>
+    <div class="tit">图片浏览功能</div>
+    <div class="conbor">
+        <div class="consj">
+            <span>1.从媒体库选择一张图片：</span> <input class="btn" type="button"
+                value="选择单张图片" onclick="uexImageBrowser.pick();">
+            <span>2.从媒体库选择多张图片：</span> 
+            <input class="btn" type="button" value="选择多张图片" onclick="uexImageBrowser.pickMulti(10);">
+            <div class="tcxx" id="pickImage" style="height: 200px;"></div>
+
+            <br><br><br>          
+            <input class="btn" type="button" value="打开图片浏览器"
+                onclick="openImageGallery();"> <input class="btn"
+                type="button" value="有索引打开" onclick="openImageGalleryWithIndex();">
+            <input class="textbox" type="text" value="res://appcan.png" id="saveImgSrc">
+            <input class="btn" type="button" value="保存" onclick="saveImg();">
+            <input class="btn" type="button" value="清除缓存" onclick="cleanCache();">
+        </div>
+    </div>
+</body>
+</html>

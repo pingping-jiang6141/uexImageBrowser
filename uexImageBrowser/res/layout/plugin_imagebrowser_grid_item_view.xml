@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="100dip"
+    android:layout_height="100dip"
+    android:background="@drawable/plugin_imagebrowser_grid_item_bg_selector"
+    android:gravity="center"
+    android:padding="5dip" >
+
+    <ImageView
+        android:id="@+id/plugin_image_watcher_grid_item_image"
+        android:layout_width="90dip"
+        android:layout_height="90dip"
+        android:scaleType="centerCrop" />
+
+</LinearLayout>
