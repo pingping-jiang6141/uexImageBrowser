@@ -11,9 +11,11 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,6 +23,8 @@ import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import java.io.File;
 
 public class ImageReviewActivity extends Activity implements OnClickListener {
 
@@ -31,12 +35,24 @@ public class ImageReviewActivity extends Activity implements OnClickListener {
 	private boolean isPickSuccess = false;
 	private ResoureFinder finder;
 	public static final String INTENT_KEY_PICK_IMAGE_RETURN_PATH = "mediaImagePick";
+	private boolean isCutSuccess = false;
+	private boolean isCropImage = false;
+	private String outputParent;
+	private String outputPath;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		finder = ResoureFinder.getInstance();
 		startPickPhoto();
+		isCropImage = getIntent().getBooleanExtra(EUExImageBrowser.IS_CROP_IMAGE, false);
+		if (isCropImage){
+			outputParent = getIntent().getStringExtra(EUExImageBrowser.OUTPUT_PATH);
+			File parent = new File(outputParent);
+			if (!parent.exists()){
+				parent.mkdirs();
+			}
+		}
 	}
 
 	private void initViews() {
@@ -84,7 +100,6 @@ public class ImageReviewActivity extends Activity implements OnClickListener {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == EUExImageBrowser.F_ACT_REQ_CODE_UEX_MEDIA_LIBRARY_IMAGE_PICK) {
 			if (resultCode == Activity.RESULT_OK) {
-				BDebug.d("ImageReviewActivity", "data:" + data.getDataString());
 				isPickSuccess = true;
 				String url = data.getDataString();// "content://u5 903sfdj"
 				if (url == null) {
@@ -92,6 +107,7 @@ public class ImageReviewActivity extends Activity implements OnClickListener {
 							this,
 							finder.getString("plugin_image_browser_system_have_not_return_image_path"),
 							Toast.LENGTH_SHORT).show();
+					finish();
 					return;
 				}
 				if (URLUtil.isFileUrl(url)) {
@@ -105,43 +121,83 @@ public class ImageReviewActivity extends Activity implements OnClickListener {
 								.getColumnIndex(MediaStore.Images.ImageColumns.DATA));
 					}
 				}
-				initViews();
-				BDebug.d("ImageReviewActivity", "path:" + path);
-				final int maxSize = ImageUtility.getPictrueSourceMaxSize(this);
-				new MyAsyncTask() {
-					private BitmapFactory.Options options = new BitmapFactory.Options();
-
-					@Override
-					protected Object doInBackground(Object... params) {
-						Bitmap bitmap = null;
-						try {
-							bitmap = ImageUtility.decodeSourceBitmapByPath(
-									path, options, maxSize);
-						} catch (OutOfMemoryError e) {
-							LogUtils.e("ImageReviewActivity",
-									"OutOfMemoryError: " + e.getMessage());
-						}
-						return bitmap;
+				if (isCropImage){
+					String fileName = path.substring(path.lastIndexOf(File.separator) + 1);
+					if (outputParent.endsWith(File.separator)){
+						outputPath = outputParent + fileName;
+					}else{
+						outputPath = outputParent + File.separator + fileName;
 					}
-
-					public void handleOnCompleted(MyAsyncTask task,
-							Object result) {
-						if (result == null) {
-							Toast.makeText(
-									ImageReviewActivity.this,
-									finder.getString("plugin_image_browser_load_image_fail"),
-									Toast.LENGTH_SHORT).show();
-						} else {
-							Bitmap bitmap = (Bitmap) result;
-							imageView.setImageBitmap(bitmap);
-						}
-
-					};
-				}.execute(new Object[] {});
+					cropImageUri(data.getData(),300,300,
+							EUExImageBrowser.F_ACT_REQ_CODE_UEX_MEDIA_LIBRARY_IMAGE_CUT,
+							Uri.fromFile(new File(outputPath)));
+				}else{
+					loadResult();
+				}
 			} else {
 				finish();
 			}
+		}else if (requestCode == EUExImageBrowser.F_ACT_REQ_CODE_UEX_MEDIA_LIBRARY_IMAGE_CUT){
+			isCutSuccess = true;
+			if (resultCode == Activity.RESULT_OK) {
+                path = outputPath;
+				loadResult();
+			} else {
+				loadResult();
+			}
 		}
+	}
+
+	private void loadResult(){
+		initViews();
+		BDebug.d("ImageReviewActivity", "path:" + path);
+		final int maxSize = ImageUtility.getPictrueSourceMaxSize(this);
+		new MyAsyncTask() {
+			private BitmapFactory.Options options = new BitmapFactory.Options();
+
+			@Override
+			protected Object doInBackground(Object... params) {
+				Bitmap bitmap = null;
+				try {
+					bitmap = ImageUtility.decodeSourceBitmapByPath(
+							path, options, maxSize);
+				} catch (OutOfMemoryError e) {
+					LogUtils.e("ImageReviewActivity",
+							"OutOfMemoryError: " + e.getMessage());
+				}
+				return bitmap;
+			}
+
+			public void handleOnCompleted(MyAsyncTask task,
+										  Object result) {
+				if (result == null) {
+					Toast.makeText(
+							ImageReviewActivity.this,
+							finder.getString("plugin_image_browser_load_image_fail"),
+							Toast.LENGTH_SHORT).show();
+				} else {
+					Bitmap bitmap = (Bitmap) result;
+					imageView.setImageBitmap(bitmap);
+				}
+
+			};
+		}.execute(new Object[] {});
+	}
+
+	private void cropImageUri(Uri uri, int outputX, int outputY, int requestCode, Uri outPut) {
+		Intent intent = new Intent("com.android.camera.action.CROP");
+		intent.setDataAndType(uri, "image/*");
+		intent.putExtra("crop", "true");
+		intent.putExtra("aspectX", 1);
+		intent.putExtra("aspectY", 1);
+		intent.putExtra("outputX", outputX);
+		intent.putExtra("outputY", outputY);
+		intent.putExtra("scale", true);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, outPut);
+		intent.putExtra("return-data", false);
+		intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+		intent.putExtra("noFaceDetection", true); // no face detection
+		startActivityForResult(intent, requestCode);
 	}
 
 	@Override
@@ -149,7 +205,7 @@ public class ImageReviewActivity extends Activity implements OnClickListener {
 		if (v == btnRePick) {
 			startPickPhoto();
 		} else if (v == btnConfirm) {
-			if (isPickSuccess) {
+			if ((isPickSuccess && !isCropImage) || (isCutSuccess && isCropImage)) {
 				Intent intent = new Intent();
 				intent.putExtra(INTENT_KEY_PICK_IMAGE_RETURN_PATH, path);
 				setResult(Activity.RESULT_OK, intent);

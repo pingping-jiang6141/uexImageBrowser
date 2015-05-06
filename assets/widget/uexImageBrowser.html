@@ -45,7 +45,9 @@
         alert("cleanCache");
         uexImageBrowser.cleanCache();
     }
-
+    function cropImage(){
+        uexImageBrowser.cropImage();
+    }
 </script>
 </head>
 
@@ -65,6 +67,7 @@
                 type="button" value="有索引打开" onclick="openImageGalleryWithIndex();">
             <input class="textbox" type="text" value="res://appcan.png" id="saveImgSrc">
             <input class="btn" type="button" value="保存" onclick="saveImg();">
+            <input class="btn" type="button" value="裁剪图片" onclick="cropImage();">
             <input class="btn" type="button" value="清除缓存" onclick="cleanCache();">
         </div>
     </div>

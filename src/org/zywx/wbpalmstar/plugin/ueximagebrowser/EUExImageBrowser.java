@@ -11,6 +11,8 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.zywx.wbpalmstar.base.BDebug;
 import org.zywx.wbpalmstar.base.BUtility;
 import org.zywx.wbpalmstar.base.ResoureFinder;
@@ -32,9 +34,12 @@ public class EUExImageBrowser extends EUExBase {
 
 	public static final int F_ACT_REQ_CODE_UEX_MEDIA_LIBRARY_IMAGE_PICK = 2;
 	public static final int F_ACT_REQ_CODE_UEX_MEDIA_LIBRARY_IMAGE_PICK_MULTI = 3;
+	public static final int F_ACT_REQ_CODE_UEX_MEDIA_LIBRARY_IMAGE_CUT = 4;
 	public static final String tag = "uexImageBrowser_";
 	public static final String F_CALLBACK_NAME_IMAGE_BROWSER_PICK = "uexImageBrowser.cbPick";
 	public static final String F_CALLBACK_NAME_IMAGE_BROWSER_SAVE = "uexImageBrowser.cbSave";
+	public static final String IS_CROP_IMAGE = "isCropImage";
+	public static final String OUTPUT_PATH = "outputPath";
 
 	private ResoureFinder finder;
 	private Context mContext;
@@ -50,6 +55,41 @@ public class EUExImageBrowser extends EUExBase {
 	 */
 	public void pick(String[] params) {
 		Intent intent = new Intent(mContext, ImageReviewActivity.class);
+		intent.putExtra(IS_CROP_IMAGE, false);
+		try {
+			startActivityForResult(intent,
+					F_ACT_REQ_CODE_UEX_MEDIA_LIBRARY_IMAGE_PICK);
+		} catch (ActivityNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void cropImage(String[] params){
+		String outputPath = "wgt://";
+		if (params != null && params.length > 0){
+			try {
+				JSONObject json = new JSONObject(params[0]);
+				if (json.has(OUTPUT_PATH)){
+					String str = json.getString(OUTPUT_PATH);
+					if (!TextUtils.isEmpty(str)){
+						outputPath = str;
+					}
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		String path = BUtility.makeRealPath(
+				BUtility.makeUrl(mBrwView.getCurrentUrl(), outputPath),
+				mBrwView.getCurrentWidget().m_widgetPath,
+				mBrwView.getCurrentWidget().m_wgtType);
+		if (TextUtils.isEmpty(path) || !path.startsWith("/")){
+			errorCallback(0, 0, "error params!");
+			return;
+		}
+		Intent intent = new Intent(mContext, ImageReviewActivity.class);
+		intent.putExtra(IS_CROP_IMAGE, true);
+		intent.putExtra(OUTPUT_PATH, path);
 		try {
 			startActivityForResult(intent,
 					F_ACT_REQ_CODE_UEX_MEDIA_LIBRARY_IMAGE_PICK);
