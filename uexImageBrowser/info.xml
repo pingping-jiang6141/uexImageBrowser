@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
     <plugin
-        uexName="uexImageBrowser" version="3.0.16" build="16">
-        <info>16:修复小米4.4.4系统不能显示图片的问题</info>
+        uexName="uexImageBrowser" version="3.0.17" build="17">
+        <info>17:新增cropImage裁剪图片接口</info>
+        <build>16:修复小米4.4.4系统不能显示图片的问题</build>
         <build>15:修复打包uexImageBrowser插件后点击输入框键盘无法平移问题</build>
         <build>14:修复图片浏览器图片显示比较慢的问题</build>
         <build>13:修复图片浏览器同一url图片只加载一次的问题。</build>
