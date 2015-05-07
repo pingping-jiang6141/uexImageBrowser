@@ -40,6 +40,8 @@ public class EUExImageBrowser extends EUExBase {
 	public static final String F_CALLBACK_NAME_IMAGE_BROWSER_SAVE = "uexImageBrowser.cbSave";
 	public static final String IS_CROP_IMAGE = "isCropImage";
 	public static final String OUTPUT_PATH = "outputPath";
+	private static final String F_CALLBACK_NAME_IMAGE_BROWSER_CROPIMAGE = "uexImageBrowser.cbCropImage";
+	private boolean isCropImage = false;
 
 	private ResoureFinder finder;
 	private Context mContext;
@@ -54,6 +56,7 @@ public class EUExImageBrowser extends EUExBase {
 	 * 从媒体库选择一张图片并返回路径
 	 */
 	public void pick(String[] params) {
+		isCropImage = false;
 		Intent intent = new Intent(mContext, ImageReviewActivity.class);
 		intent.putExtra(IS_CROP_IMAGE, false);
 		try {
@@ -87,6 +90,7 @@ public class EUExImageBrowser extends EUExBase {
 			errorCallback(0, 0, "error params!");
 			return;
 		}
+		isCropImage = true;
 		Intent intent = new Intent(mContext, ImageReviewActivity.class);
 		intent.putExtra(IS_CROP_IMAGE, true);
 		intent.putExtra(OUTPUT_PATH, path);
@@ -211,8 +215,13 @@ public class EUExImageBrowser extends EUExBase {
 			}
 			String imagePath = data
 					.getStringExtra(ImageReviewActivity.INTENT_KEY_PICK_IMAGE_RETURN_PATH);
-			jsCallback(EUExImageBrowser.F_CALLBACK_NAME_IMAGE_BROWSER_PICK, 0,
-					EUExCallback.F_C_TEXT, imagePath);
+			if (isCropImage){
+				jsCallback(EUExImageBrowser.F_CALLBACK_NAME_IMAGE_BROWSER_CROPIMAGE, 0,
+						EUExCallback.F_C_TEXT, imagePath);
+			}else{
+				jsCallback(EUExImageBrowser.F_CALLBACK_NAME_IMAGE_BROWSER_PICK, 0,
+						EUExCallback.F_C_TEXT, imagePath);
+			}
 		} else if (requestCode == F_ACT_REQ_CODE_UEX_MEDIA_LIBRARY_IMAGE_PICK_MULTI) {
 			if (data == null) {
 				return;
