@@ -21,7 +21,6 @@ public class ImageUtil {
         //旋转图片 动作
         Matrix matrix = new Matrix();;
         matrix.postRotate(angle);
-        System.out.println("angle2=" + angle);
         // 创建新的图片
         Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0,
                 bitmap.getWidth(), bitmap.getHeight(), matrix, true);
@@ -53,4 +52,14 @@ public class ImageUtil {
         }
         return degree;
     }
+
+    public static void writePictureDegree(String path) {
+        try {
+            ExifInterface exifInterface = new ExifInterface(path);
+            exifInterface.setAttribute(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_UNDEFINED+"");
+            exifInterface.saveAttributes();
+        } catch (IOException e) {
+        }
+    }
+
 }
