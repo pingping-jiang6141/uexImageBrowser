@@ -187,7 +187,6 @@ public class ImagePreviewActivity extends Activity implements OnClickListener,
 						}
 					} catch (IOException e) {
 						LogUtils.o("IOExceptionError: " + e.getMessage());
-						e.printStackTrace();
 					} catch (OutOfMemoryError error) {
 						LogUtils.o("OutOfMemoryError: " + error.getMessage());
 					} finally {
@@ -196,13 +195,11 @@ public class ImagePreviewActivity extends Activity implements OnClickListener,
 								is.close();
 							}
 						} catch (IOException e) {
-							e.printStackTrace();
 						}
 						if (fos != null) {
 							try {
 								fos.close();
 							} catch (IOException e) {
-								e.printStackTrace();
 							}
 						}
 					}

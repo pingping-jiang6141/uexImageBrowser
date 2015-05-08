@@ -5,17 +5,20 @@ import org.zywx.wbpalmstar.base.ResoureFinder;
 import org.zywx.wbpalmstar.base.cache.MyAsyncTask;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,6 +28,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class ImageReviewActivity extends Activity implements OnClickListener {
 
@@ -39,6 +45,7 @@ public class ImageReviewActivity extends Activity implements OnClickListener {
 	private boolean isCropImage = false;
 	private String outputParent;
 	private String outputPath;
+    private ProgressDialog dialog=null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -148,9 +155,27 @@ public class ImageReviewActivity extends Activity implements OnClickListener {
 		}
 	}
 
+	/** 保存方法 */
+	public void saveBitmap(String path,Bitmap bitmap) {
+		File f = new File(path);
+		if (f.exists()) {
+			f.delete();
+		}
+		try {
+			FileOutputStream out = new FileOutputStream(f);
+			bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+			out.flush();
+			out.close();
+		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
+		}
+
+	}
+
 	private void loadResult(){
 		initViews();
 		BDebug.d("ImageReviewActivity", "path:" + path);
+		final int degree=ImageUtil.readPictureDegree(path);
 		final int maxSize = ImageUtility.getPictrueSourceMaxSize(this);
 		new MyAsyncTask() {
 			private BitmapFactory.Options options = new BitmapFactory.Options();
@@ -158,18 +183,35 @@ public class ImageReviewActivity extends Activity implements OnClickListener {
 			@Override
 			protected Object doInBackground(Object... params) {
 				Bitmap bitmap = null;
+				Bitmap newBitmap=null;
 				try {
 					bitmap = ImageUtility.decodeSourceBitmapByPath(
 							path, options, maxSize);
+					if (degree!=0) {
+						newBitmap = ImageUtil.rotaingImageView(degree, bitmap);
+						saveBitmap(path, newBitmap);
+						ImageUtil.writePictureDegree(path);
+						bitmap.recycle();
+                        MediaScannerConnection.scanFile(getApplicationContext(), new String[]{path}, null,
+                                new MediaScannerConnection.OnScanCompletedListener() {
+                                    @Override
+                                    public void onScanCompleted(String path, Uri uri) {
+                                    }
+                                });
+					}else{
+						newBitmap=bitmap;
+					}
+					bitmap=null;
 				} catch (OutOfMemoryError e) {
 					LogUtils.e("ImageReviewActivity",
 							"OutOfMemoryError: " + e.getMessage());
 				}
-				return bitmap;
+      			return newBitmap;
 			}
 
 			public void handleOnCompleted(MyAsyncTask task,
 										  Object result) {
+                cancelProgress();
 				if (result == null) {
 					Toast.makeText(
 							ImageReviewActivity.this,
@@ -182,7 +224,22 @@ public class ImageReviewActivity extends Activity implements OnClickListener {
 
 			};
 		}.execute(new Object[] {});
+        showProgress();
 	}
+
+    public void showProgress(){
+        if (isFinishing()){
+            return;
+        }
+        dialog= ProgressDialog.show(this, "提示", "正在加载，请稍后...");
+        dialog.setCancelable(true);
+    }
+
+    public void cancelProgress(){
+        if (dialog!=null){
+            dialog.dismiss();
+        }
+    }
 
 	private void cropImageUri(Uri uri, int outputX, int outputY, int requestCode, Uri outPut) {
 		Intent intent = new Intent("com.android.camera.action.CROP");
