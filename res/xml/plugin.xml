@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
-      <plugin
+	<plugin
         className="org.zywx.wbpalmstar.plugin.ueximagebrowser.EUExImageBrowser"
         uexName="uexImageBrowser" >
-          <method name="pick" />
-          <method name="pickMulti" />
-          <method name="open" />
-          <method name="save" />
-          <method name="cleanCache" />
-          <method name="cropImage" />
+        <method name="pick"/>
+        <method name="pickMulti"/>
+        <method name="open"/>
+        <method name="save"/>
+        <method name="cleanCache"/>
+        <method name="cropImage"/>
     </plugin>
-    
 </uexplugins>
