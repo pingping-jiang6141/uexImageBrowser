@@ -7,12 +7,23 @@
 <link rel="stylesheet" type="text/css" href="css/index.css">
 <title>图片浏览功能</title>
 <script type="text/javascript">
-    var paths;
     window.uexOnload = function() {
 
         uexImageBrowser.cbPick = function(opCode, dataType, data) {
-            document.getElementById('pickImage').innerHTML = data;
-            paths = data;
+            //document.getElementById('pickImage').innerHTML = data;
+                if (data.indexOf(',') >= 0) {
+                    var arr = data.split(',');
+                    var len = arr.length;
+                    for (var i = 0; i < len; i++) {
+                        $('<img  src="' + arr[i] + '" name="img" style="width: 4em; height: 4em;  padding:2pxp;">').appendTo($('#piclist'));
+                    }
+                } else {
+                    $('<img  src="' + data + '" name="img" style="width: 4em; height: 4em;  padding:2pxp;">').appendTo($('#piclist'));
+                }
+        }
+
+        uexImageBrowser.cbCropImage = function(opCode, dataType, data){
+            $('<img  src="' + data + '" name="img" style="width: 4em; height: 4em;  padding:2pxp;">').appendTo($('#piclist'));
         }
 
         uexImageBrowser.cbSave = function(opCode, dataType, data) {
@@ -29,13 +40,30 @@
     }
 
     function openImageGallery() {
-        uexImageBrowser.open(paths);
+        var array = document.getElementsByName("img");
+        if(array.length > 0){
+            var data = new Array(array.length);
+            for(var i = 0; i < array.length; i++){
+                data[i] = array[i].src;
+            }
+            uexImageBrowser.open(data);
+        }else{
+            alert("please choose picture first!");
+        }
     }
 
     function openImageGalleryWithIndex() {
-        uexImageBrowser.open(paths, 1);
+        var array = document.getElementsByName("img");
+        if(array.length > 0){
+            var data = new Array(array.length);
+            for(var i = 0; i < array.length; i++){
+                data[i] = array[i].src;
+            }
+            uexImageBrowser.open(data, 1);
+        }else{
+            alert("please choose picture first!");
+        }
     }
-
     function saveImg() {
         var pic = document.getElementById('saveImgSrc').value;
         uexImageBrowser.save(pic);
@@ -49,6 +77,9 @@
         uexImageBrowser.cropImage();
     }
 </script>
+    <script src="js/appcan.js"></script>
+    <script src="js/appcan.control.js"></script>
+    <script src="js/appcan.tab.js"></script>
 </head>
 
 <body>
@@ -59,9 +90,10 @@
                 value="选择单张图片" onclick="uexImageBrowser.pick();">
             <span>2.从媒体库选择多张图片：</span> 
             <input class="btn" type="button" value="选择多张图片" onclick="uexImageBrowser.pickMulti(10);">
-            <div class="tcxx" id="pickImage" style="height: 200px;"></div>
-
-            <br><br><br>          
+            <div id="piclist" >
+                <img  src="wgtRes/appcan.png" name="img" style="width: 4em; height: 4em; padding:2pxp;">
+            </div>
+            <br>
             <input class="btn" type="button" value="打开图片浏览器"
                 onclick="openImageGallery();"> <input class="btn"
                 type="button" value="有索引打开" onclick="openImageGalleryWithIndex();">
