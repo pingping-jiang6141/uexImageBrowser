@@ -1,7 +1,7 @@
 package org.zywx.wbpalmstar.plugin.ueximagebrowser;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +58,7 @@ public class PickMultiImageGridAdapter extends BaseAdapter {
         this.listener = listener;
     }
     private int maxCount;
-    private HashMap<String, Boolean> mSelectMap;
+    private LinkedHashMap<String, Boolean> mSelectMap;
 
     public int getMaxCount() {
         return maxCount;
@@ -73,7 +73,7 @@ public class PickMultiImageGridAdapter extends BaseAdapter {
         if (activity == null && list == null) {
             throw new NullPointerException("activity or list can not be null");
         }
-        mSelectMap = new HashMap<String, Boolean>();
+        mSelectMap = new LinkedHashMap<String, Boolean>();
         finder = ResoureFinder.getInstance(activity);
         this.setList(list);
         inflater = LayoutInflater.from(activity);
@@ -135,7 +135,11 @@ public class PickMultiImageGridAdapter extends BaseAdapter {
                  if((getSelectItems().size() == getMaxCount()) && !isCheck){
                      return;
                  }
-                 mSelectMap.put(item, !isCheck);
+                 if(!isCheck){
+                	 mSelectMap.put(item, !isCheck);
+                 }else{
+                	 mSelectMap.remove(item);
+                 }
                  updateCheckBox(!isCheck, (ImageView)arg0);
                  listener.onSelectedNumChanged(getSelectItems().size());
             }
