@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
     <plugin
-        uexName="uexImageBrowser" version="3.0.19" build="19">
-        <info>19:修复加密情况下，网页读取img标签的src路径图片打不开的问题</info>
+        uexName="uexImageBrowser" version="3.0.20" build="20">
+        <info>20:选图顺序问题修正</info>
+        <build>19:修复加密情况下，网页读取img标签的src路径图片打不开的问题</build>
         <build>18:修复三星等机型选择相册竖拍照片变横着的问题</build>
         <build>17:新增cropImage裁剪图片接口</build>
         <build>16:修复小米4.4.4系统不能显示图片的问题</build>
