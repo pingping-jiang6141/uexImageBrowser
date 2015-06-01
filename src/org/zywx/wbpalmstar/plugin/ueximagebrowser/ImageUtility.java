@@ -1,21 +1,5 @@
 package org.zywx.wbpalmstar.plugin.ueximagebrowser;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.zywx.wbpalmstar.base.BDebug;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -27,6 +11,22 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
 import android.util.Log;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.zywx.wbpalmstar.base.BDebug;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 
 public class ImageUtility {
 
@@ -180,9 +180,9 @@ public class ImageUtility {
 		}
 		float sampleRate = 1;
 		if (srcHeight > srcWidth) {
-			sampleRate = srcHeight / maxSize;
+			sampleRate = (float) srcHeight / (float) maxSize;
 		} else {
-			sampleRate = srcWidth / maxSize;
+			sampleRate = (float) srcWidth /(float) maxSize;
 		}
 		sampleRate = sampleRate > 1 ? sampleRate : 1;
 		if (options.mCancel) {
@@ -191,7 +191,7 @@ public class ImageUtility {
 		FileInputStream fis = null;
 		try {
 			fis = new FileInputStream(file);
-			options.inSampleSize = (int) sampleRate;
+			options.inSampleSize = (int) Math.ceil(sampleRate);
 			options.inJustDecodeBounds = false;
 			options.inPurgeable = true;
 			options.inInputShareable = true;
