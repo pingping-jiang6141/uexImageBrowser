@@ -1,9 +1,5 @@
 package org.zywx.wbpalmstar.plugin.ueximagebrowser;
 
-import org.zywx.wbpalmstar.base.BDebug;
-import org.zywx.wbpalmstar.base.ResoureFinder;
-import org.zywx.wbpalmstar.base.cache.MyAsyncTask;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
@@ -17,8 +13,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,6 +20,10 @@ import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import org.zywx.wbpalmstar.base.BDebug;
+import org.zywx.wbpalmstar.base.ResoureFinder;
+import org.zywx.wbpalmstar.base.cache.MyAsyncTask;
 
 import java.io.File;
 import java.io.FileNotFoundException;
