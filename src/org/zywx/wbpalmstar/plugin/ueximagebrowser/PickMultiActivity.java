@@ -1,12 +1,5 @@
 package org.zywx.wbpalmstar.plugin.ueximagebrowser;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import org.zywx.wbpalmstar.base.ResoureFinder;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
@@ -35,8 +28,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.zywx.wbpalmstar.base.ResoureFinder;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 public class PickMultiActivity extends Activity implements OnClickListener{
 
+    private static final int NO_PICTURE = -1;
     private ResoureFinder finder;
     private TextView mSelectNum;//selected picture number
     private Button mBackBtn;
@@ -176,8 +179,12 @@ public class PickMultiActivity extends Activity implements OnClickListener{
                 }
                 mCursor.close();
                 mGroupData = subGroupOfImage(mGruopMap);
-                //send message when load finish
-                mHandler.sendEmptyMessage(SCAN_OK);
+                if (mGroupData != null){
+                    //send message when load finish
+                    mHandler.sendEmptyMessage(SCAN_OK);
+                }else{
+                    mHandler.sendEmptyMessage(NO_PICTURE);
+                }
             }
         }).start();
     }
@@ -185,24 +192,29 @@ public class PickMultiActivity extends Activity implements OnClickListener{
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
-            case SCAN_OK:
-                mProgressDialog.dismiss();
-                mGroupAdapter = new PickMultiGroupAdapter(PickMultiActivity.this, mGroupData, mGrouplst);
-                mGrouplst.setAdapter(mGroupAdapter);
-                mSelectGroup.setText(mGroupData.get(mGroupAdapter.getSelectItem()).getFolderName());
-                mImageAdapter = new PickMultiImageGridAdapter(PickMultiActivity.this, 
-                        mGruopMap.get(mGroupData.get(mGroupAdapter.getSelectItem()).getFolderName()), mImageGridView);
-                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(itemX, itemX);
-                mImageAdapter.setLayoutParams(params);
-                mImageGridView.setAdapter(mImageAdapter);
-                mImageAdapter.setMaxCount(maxCount);
-                mImageAdapter.setListener(listener);
-                if(maxCount <= 0){
-                    //if the maxCount is not setted, default is all images count.
-                    maxCount = totalPic;
-                }
-                updateSelectedNum(0);
-                break;
+                case SCAN_OK:
+                    mProgressDialog.dismiss();
+                    mGroupAdapter = new PickMultiGroupAdapter(PickMultiActivity.this, mGroupData, mGrouplst);
+                    mGrouplst.setAdapter(mGroupAdapter);
+                    mSelectGroup.setText(mGroupData.get(mGroupAdapter.getSelectItem()).getFolderName());
+                    mImageAdapter = new PickMultiImageGridAdapter(PickMultiActivity.this,
+                            mGruopMap.get(mGroupData.get(mGroupAdapter.getSelectItem()).getFolderName()), mImageGridView);
+                    FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(itemX, itemX);
+                    mImageAdapter.setLayoutParams(params);
+                    mImageGridView.setAdapter(mImageAdapter);
+                    mImageAdapter.setMaxCount(maxCount);
+                    mImageAdapter.setListener(listener);
+                    if(maxCount <= 0){
+                        //if the maxCount is not setted, default is all images count.
+                        maxCount = totalPic;
+                    }
+                    updateSelectedNum(0);
+                    break;
+                case NO_PICTURE:
+                    Toast.makeText(PickMultiActivity.this,
+                            "no pictures!", Toast.LENGTH_SHORT).show();
+                    PickMultiActivity.this.finish();
+                    break;
             }
         }
     };
