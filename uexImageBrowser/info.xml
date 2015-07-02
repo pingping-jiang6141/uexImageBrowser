@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <uexplugins>
     <plugin
-        uexName="uexImageBrowser" version="3.0.20" build="20">
-        <info>20:选图顺序问题修正</info>
+        uexName="uexImageBrowser" version="3.0.21" build="21">
+        <info>21:修复多选图片接口在手机上没有图片时崩溃的问题</info>
+        <build>20:选图顺序问题修正</build>
         <build>19:修复加密情况下，网页读取img标签的src路径图片打不开的问题</build>
         <build>18:修复三星等机型选择相册竖拍照片变横着的问题</build>
         <build>17:新增cropImage裁剪图片接口</build>
